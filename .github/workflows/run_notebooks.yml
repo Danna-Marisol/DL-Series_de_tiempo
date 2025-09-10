@@ -51,7 +51,7 @@ jobs:
 
       # Subir artefactos generados (gráficos, CSVs)
       - name: Upload artifacts
-        uses: actions/upload-artifact@v3  # versión actualizada
+        uses: actions/upload-artifact@v4  # actualizado a la versión más reciente
         with:
           name: ml-results
           path: |
