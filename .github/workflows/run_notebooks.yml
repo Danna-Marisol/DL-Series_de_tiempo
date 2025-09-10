@@ -32,22 +32,22 @@ jobs:
       # Análisis exploratorio
       - name: Run Exploratory Analysis
         run: |
-          python scripts/01_analisis_exploratorio.py
+          python scripts/Analisis_exploratorio.ipynb
 
       # Preprocesamiento
       - name: Run Preprocessing
         run: |
-          python scripts/02_preprocesamiento.py
+          python scripts/Preprocesamiento.ipynb
 
       # Entrenamiento y validación
       - name: Train and Validate Models
         run: |
-          python scripts/03_entrenamiento_validacion.py
+          python scripts/Entrenamiento_validacion.ipynb
 
       # Evaluación final y exportación
       - name: Run Evaluation and Export
         run: |
-          python scripts/04_evaluacion_exportacion.py
+          python scripts/Evaluacion_exportacion.ipynb
 
       # Subir artefactos generados (gráficos, CSVs)
       - name: Upload artifacts
