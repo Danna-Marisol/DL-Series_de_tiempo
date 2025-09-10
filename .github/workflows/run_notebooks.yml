@@ -2,49 +2,58 @@ name: Stock Prediction Pipeline
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
-  stock-pipeline:
+  build-and-run:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repo
-      uses: actions/checkout@v3
+      # Checkout del repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
-    - name: Setup Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: "3.10"
+      # Configurar Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
 
-    - name: Install dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install -r requirements.txt
+      # Instalar dependencias
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
 
-    - name: Run Exploratory Analysis
-      run: python exploratory.py
+      # Análisis exploratorio
+      - name: Run Exploratory Analysis
+        run: |
+          python scripts/01_analisis_exploratorio.py
 
-    - name: Run Preprocessing
-      run: python preprocessing.py
+      # Preprocesamiento
+      - name: Run Preprocessing
+        run: |
+          python scripts/02_preprocesamiento.py
 
-    - name: Run Training
-      run: python training.py
+      # Entrenamiento y validación
+      - name: Train and Validate Models
+        run: |
+          python scripts/03_entrenamiento_validacion.py
 
-    - name: Run Evaluation
-      run: python evaluation.py
+      # Evaluación final y exportación
+      - name: Run Evaluation and Export
+        run: |
+          python scripts/04_evaluacion_exportacion.py
 
-    - name: Upload artifacts (plots, models & results)
-      uses: actions/upload-artifact@v3
-      with:
-        name: stock-results
-        path: |
-          *.png
-          training_results.csv
-          *.h5
-          *.pkl
-
-
-
+      # Subir artefactos generados (gráficos, CSVs)
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v3.1  # versión actualizada
+        with:
+          name: ml-results
+          path: |
+            *.csv
+            *.png
