@@ -13,40 +13,45 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout del repositorio
+      # 1️⃣ Clonar repositorio
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Configurar Python
+      # 2️⃣ Configurar Python
       - name: Setup Python
         uses: actions/setup-python@v4
         with:
           python-version: '3.11'
 
-      # Instalar dependencias
+      # 3️⃣ Actualizar pip e instalar dependencias
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
-      # Análisis exploratorio
+
+      # 4️⃣ Verificar que los archivos existen
+      - name: List repository files
+        run: ls -R
+
+      # 5️⃣ Análisis exploratorio
       - name: Run Exploratory Analysis
-        run: |
-          python scripts/Analisis_exploratorio.py
-      # Preprocesamiento
+        run: python scripts/Analisis_exploratorio.py
+
+      # 6️⃣ Preprocesamiento
       - name: Run Preprocessing
-        run: |
-          python scripts/Preprocesamiento.py
-      # Entrenamiento y validación
+        run: python scripts/Preprocesamiento.py
+
+      # 7️⃣ Entrenamiento y validación
       - name: Train and Validate Models
-        run: |
-          python scripts/Entrenamiento_validacion.py
-      # Evaluación final y exportación
+        run: python scripts/Entrenamiento_validacion.py
+
+      # 8️⃣ Evaluación final y exportación
       - name: Run Evaluation and Export
-        run: |
-          python scripts/Evaluacion_exportacion.py
-      # Subir artefactos generados (gráficos, CSVs)
+        run: python scripts/Evaluacion_exportacion.py
+
+      # 9️⃣ Subir artefactos generados (CSV y PNG)
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4  # actualizado a la versión más reciente
+        uses: actions/upload-artifact@v4
         with:
           name: ml-results
           path: |
